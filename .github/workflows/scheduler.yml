@@ -1,1 +1,33 @@
+name: Daily Crypto Pre-Pump Automation
 
+on:
+  schedule:
+    # প্রতিদিন ভারতীয় সময় সকাল ৫:৩০ টায় (UTC 00:00) অটোমেটিক রান করবে
+    - cron: '0 0 * * *'
+  workflow_dispatch: # গিটহাব ড্যাশবোর্ড থেকে ম্যানুয়ালি রান করার বাটন পাওয়ার জন্য
+
+jobs:
+  run-scanner:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install ccxt pandas numpy requests flask
+
+      - name: Run Market Scan Script
+        run: |
+          python app.py
+          
+      - name: Commit Updated Database
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Automated Daily Scan & PnL Report Update"
+          file_pattern: "trades_tracker.json"
