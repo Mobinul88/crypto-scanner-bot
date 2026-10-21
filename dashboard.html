@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institutional Pre-Pump Crypto Hub - Mabinul</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #080c14; color: #f1f5f9; padding: 25px; }
+
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #1e293b; padding-bottom: 15px; }
+        h1 { font-size: 24px; color: #38bdf8; display: flex; align-items: center; gap: 10px; }
+        .operator { font-size: 13.5px; color: #94a3b8; background: #1e293b; padding: 8px 15px; border-radius: 8px; border: 1px solid #334155; }
+
+        .control-panel { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+        .btn { padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+        .btn-search { background: #0284c7; color: #fff; }
+        .btn-scan { background: #10b981; color: #000; }
+        .btn-pnl { background: #0ea5e9; color: #fff; }
+        .btn-reset { background: #ef4444; color: #fff; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .btc-card { background: #111827; border: 1px solid #1f2937; border-radius: 10px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btc-status { font-weight: bold; font-size: 14px; }
+        .btc-stats { font-family: monospace; font-size: 14px; color: #34d399; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .card { background: #111827; padding: 15px; border-radius: 10px; border-left: 4px solid #38bdf8; border: 1px solid #1f2937; }
+        .card h3 { font-size: 11px; color: #9ca3af; margin-bottom: 5px; text-transform: uppercase; }
+        .card .value { font-size: 18px; font-weight: bold; color: #fff; }
+
+        .trade-box { background: #111827; border: 1px solid #1f2937; border-radius: 12px; margin-bottom: 15px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.4); }
+        .trade-header { background: #0d1322; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2937; }
+        .trade-title { font-size: 16px; font-weight: bold; color: #38bdf8; }
+        .trade-body { padding: 18px; }
+        
+        .buy-zone { background: #064e3b; border: 1px solid #059669; padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; font-weight: bold; color: #34d399; display: flex; justify-content: space-between; }
+        .levels-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 15px; }
+        .level-card { background: #1f2937; padding: 10px 14px; border-radius: 8px; }
+        .level-card span { font-size: 11px; color: #9ca3af; display: block; margin-bottom: 3px; text-transform: uppercase; }
+        .level-card strong { font-family: monospace; font-size: 13.5px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+        th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #1f2937; }
+        th { background: #080c14; color: #38bdf8; }
+        tr:hover { background: #1f2937; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Institutional Pre-Pump Crypto Hub</h1>
+        <div class="operator">Owner & Lead Analyst: <strong>মবিনুল হক শেখ</strong> | Strict Max 5 Trades/Day Active</div>
+    </header>
+
+    <div class="control-panel">
+        <button class="btn btn-search" onclick="alert('সার্চ ও ইন্সপেকশন মোড সক্রিয়।')">🔍 Search & Inspect Coin</button>
+        <button class="btn btn-scan" onclick="triggerScan()">⚡ Start Full Market Scan (UTC Close)</button>
+        <button class="btn btn-pnl" onclick="loadData()">🔄 Force Update PnL & Zones</button>
+        <button class="btn btn-reset" onclick="resetDb()">🗑️ Reset Database</button>
+    </div>
+
+    <div class="btc-card" id="btc-card-box">
+        <div class="btc-status" id="btc-status-text">BTC Market Status: লোডিং...</div>
+        <div class="btc-stats" id="btc-stats-text">$0.00</div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="card"><h3>Total Identified</h3><div class="value" id="m-total">0</div></div>
+        <div class="card" style="border-left-color: #f59e0b;"><h3>Waiting Retrace</h3><div class="value" id="m-wait">0</div></div>
+        <div class="card" style="border-left-color: #10b981;"><h3>Active Triggered</h3><div class="value" id="m-active">0</div></div>
+        <div class="card" style="border-left-color: #3b82f6;"><h3>TP1 Hits</h3><div class="value" id="m-tp1">0</div></div>
+        <div class="card" style="border-left-color: #8b5cf6;"><h3>TP2 Hits</h3><div class="value" id="m-tp2">0</div></div>
+        <div class="card" style="border-left-color: #ec4899;"><h3>TP3 Hits</h3><div class="value" id="m-tp3">0</div></div>
+        <div class="card" style="border-left-color: #ef4444;"><h3>SL Hits</h3><div class="value" id="m-sl">0</div></div>
+        <div class="card" style="border-left-color: #14b8a6;"><h3>Total PnL</h3><div class="value" id="m-pnl">0.0%</div></div>
+    </div>
+
+    <div id="trades-container">
+        <p style="text-align: center; color: #94a3b8; padding: 40px;">কোনো ট্রেড পাওয়া যায়নি। 'Start Full Market Scan' বাটনটিতে ক্লিক করুন (এক দিনে সর্বোচ্চ ৫টি ট্রেড স্ক্যান হবে)।</p>
+    </div>
+
+    <script>
+        async function loadData() {
+            let res = await fetch('/api/get_data');
+            let data = await res.json();
+            
+            // Update BTC
+            document.getElementById('btc-status-text').innerText = `BTC Market Status: 🟢 ${data.btc_status.condition} (SMA20 Dist: ${data.btc_status.sma20_dist}%)`;
+            document.getElementById('btc-stats-text').innerText = `$${data.btc_status.price.toLocaleString()} (+${data.btc_status.change_24h}%)`;
+
+            // Update Metrics
+            document.getElementById('m-total').innerText = data.metrics.total_identified;
+            document.getElementById('m-wait').innerText = data.metrics.waiting_retrace;
+            document.getElementById('m-active').innerText = data.metrics.active_triggered;
+            document.getElementById('m-tp1').innerText = data.metrics.tp1_hits;
+            document.getElementById('m-tp2').innerText = data.metrics.tp2_hits;
+            document.getElementById('m-tp3').innerText = data.metrics.tp3_hits;
+            document.getElementById('m-sl').innerText = data.metrics.sl_hits;
+            document.getElementById('m-pnl').innerText = data.metrics.total_pnl + '%';
+
+            // Render Trades
+            let container = document.getElementById('trades-container');
+            container.innerHTML = '';
+            if (data.trades.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #94a3b8; padding: 40px;">কোনো ট্রেড পাওয়া যায়নি। স্ক্যান করুন।</p>';
+                return;
+            }
+
+            data.trades.forEach(t => {
+                let histRows = '';
+                t.history_7d.forEach(h => {
+                    histRows += `<tr>
+                        <td>${h.date}</td>
+                        <td style="font-family: monospace;">${h.close}</td>
+                        <td>${h.sma20_dist}</td>
+                        <td>${h.sma50_dist}</td>
+                        <td>${h.rvol}</td>
+                        <td>${h.daily_oi}</td>
+                        <td style="color: ${h.flow === 'Inflow' ? '#34d399' : '#f87171'}">${h.flow}</td>
+                        <td style="color: ${h.candle === 'Bullish' ? '#34d399' : '#f87171'}">${h.candle}</td>
+                    </tr>`;
+                });
+
+                let box = `<div class="trade-box">
+                    <div class="trade-header">
+                        <div class="trade-title">${t.symbol} <small style="color: #94a3b8; font-size: 11px;">(${t.category})</small></div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span style="background: #1e3a8a; color: #60a5fa; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: bold;">Score: ${t.score}</span>
+                            <span style="background: #065f46; color: #34d399; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: bold;">${t.pnl}</span>
+                        </div>
+                    </div>
+                    <div class="trade-body">
+                        <div class="buy-zone">
+                            <span>🟢 RETRACE BUY ZONE: ${t.entry_zone}</span>
+                            <span>(রিট্রেস সফল ও ট্রেড অ্যাক্টিভ)</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card"><span>Triggered Entry</span><strong style="color: #34d399;">${t.current_price}</strong></div>
+                            <div class="level-card"><span>Stop Loss</span><strong style="color: #f87171;">${t.stop_loss}</strong></div>
+                            <div class="level-card"><span>TP 1</span><strong style="color: #60a5fa;">${t.tp1}</strong></div>
+                            <div class="level-card"><span>TP 2</span><strong style="color: #60a5fa;">${t.tp2}</strong></div>
+                            <div class="level-card"><span>TP 3</span><strong style="color: #60a5fa;">${t.tp3}</strong></div>
+                        </div>
+                        <div style="font-size: 12px; color: #9ca3af; margin-bottom: 10px;">
+                            <strong>Fundamental Data:</strong> Circulating: ${t.circulating} | Total Supply: ${t.total_supply} | SMA 20: ${t.sma20_val} | SMA 50: ${t.sma50_val}
+                        </div>
+                        <details style="background: #0d1322; padding: 10px; border-radius: 8px; border: 1px solid #1f2937;">
+                            <summary style="cursor: pointer; color: #38bdf8; font-weight: bold; font-size: 12px;">📊 বিগত ৭ দিনের বিস্তারিত হিস্ট্রি (Daily OI ও Exchange Net Flow সহ)</summary>
+                            <table>
+                               <thead>
+                                   <tr><th>Date</th><th>Close</th><th>SMA20 Dist</th><th>SMA50 Dist</th><th>RVOL</th><th>Daily OI</th><th>Flow</th><th>Candle</th></tr>
+                               </thead>
+                               <tbody>${histRows}</tbody>
+                            </table>
+                        </details>
+                    </div>
+                </div>`;
+                container.innerHTML += box;
+            });
+        }
+
+        async function triggerScan() {
+            alert("ফুল মার্কেট স্ক্যান শুরু হচ্ছে (এক দিনে সর্বোচ্চ ৫টি ট্রেড ফিল্টার করা হবে)...");
+            let res = await fetch('/api/scan_market', {method: 'POST'});
+            let data = await res.json();
+            alert(`স্ক্যান সম্পন্ন! সফলভাবে ${data.count}টি প্রি-পাম্প ট্রেড খুঁজে পাওয়া গেছে (লিমিট: সর্বোচ্চ ৫টি)।`);
+            loadData();
+        }
+
+        async function resetDb() {
+            if (confirm("আপনি কি ডেটাবেস রিসেট করতে চান?")) {
+                await fetch('/api/reset_db', {method: 'POST'});
+                loadData();
+                alert("ডেটাবেস সফলভাবে রিসেট করা হয়েছে।");
+            }
+        }
+
+        window.onload = loadData;
+    </script>
+</body>
+</html>
