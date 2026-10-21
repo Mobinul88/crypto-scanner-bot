@@ -884,7 +884,6 @@ def build_html_page():
 
         cards_html += f"""
         <div class="coin-card {status_filter_class}" data-category="{cat_slug}" data-status="{st}">
-            <!-- সংক্ষেপিত হেডলাইন স্ট্রিপ: এখানে ক্লিক করলেই নিচের ড্রপডাউনটি খুলবে বা বন্ধ হবে -->
             <div class="card-summary-strip" onclick="toggleCardDetails('{details_id}', this)">
                 <div class="strip-left">
                     <div class="strip-title-row">
@@ -911,7 +910,6 @@ def build_html_page():
                 </div>
             </div>
 
-            <!-- ড্রপডাউন বডি: ক্লিক করলে এই পুরো বিস্তারিত অংশটি বের হবে -->
             <div class="card-expand-body" id="{details_id}">
                 <div class="entry-zone-banner">
                     <span class="ez-label">🎯 RETRACE BUY ZONE:</span>
@@ -1047,473 +1045,70 @@ def build_html_page():
                 margin: 0;
                 padding: 24px;
             }}
-            .container {{
-                max-width: 1280px;
-                margin: 0 auto;
-            }}
-            .header {{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 1px solid var(--border);
-                padding-bottom: 20px;
-                margin-bottom: 20px;
-                flex-wrap: wrap;
-                gap: 16px;
-            }}
-            .header-brand {{
-                display: flex;
-                align-items: center;
-                gap: 16px;
-            }}
-            .brand-logo {{
-                width: 58px;
-                height: 58px;
-                border-radius: 50%;
-                border: 2px solid var(--accent);
-                object-fit: cover;
-                background: #ffffff;
-                box-shadow: 0 4px 14px rgba(56, 189, 248, 0.25);
-            }}
-            .header h1 {{
-                margin: 0;
-                font-size: 24px;
-                color: var(--accent);
-            }}
-            .control-panel {{
-                display: flex;
-                gap: 12px;
-                align-items: center;
-                background: #1e293b;
-                padding: 14px 20px;
-                border-radius: 12px;
-                border: 1px solid var(--border);
-                margin-bottom: 20px;
-                justify-content: space-between;
-                flex-wrap: wrap;
-            }}
-            .btn {{
-                padding: 10px 18px;
-                border-radius: 8px;
-                font-size: 14px;
-                font-weight: 600;
-                border: none;
-                cursor: pointer;
-                transition: 0.2s all;
-            }}
-            .btn-start {{
-                background: #10b981;
-                color: white;
-            }}
-            .btn-start:hover {{
-                background: #059669;
-            }}
-            .btn-inspect {{
-                background: #8b5cf6;
-                color: white;
-            }}
-            .btn-inspect:hover {{
-                background: #7c3aed;
-            }}
-            .btn-pnl {{
-                background: #38bdf8;
-                color: #0f172a;
-            }}
-            .btn-pnl:hover {{
-                background: #0284c7;
-                color: white;
-            }}
-            .btn-reset {{
-                background: #ef4444;
-                color: white;
-            }}
-            .btn-reset:hover {{
-                background: #dc2626;
-            }}
-            .btn:disabled {{
-                opacity: 0.5;
-                cursor: not-allowed;
-            }}
-            .tv-btn {{
-                background: #1e3a8a;
-                color: #60a5fa;
-                padding: 4px 10px;
-                border-radius: 6px;
-                text-decoration: none;
-                font-size: 11px;
-                font-weight: bold;
-                border: 1px solid #2563eb;
-                transition: 0.2s;
-            }}
-            .tv-btn:hover {{
-                background: #2563eb;
-                color: #ffffff;
-            }}
-            .btc-sentinel {{
-                background: {btc_banner_color};
-                border: 1px solid {btc_border_color};
-                border-radius: 12px;
-                padding: 14px 20px;
-                margin-bottom: 24px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }}
-            .btc-sentinel h3 {{
-                margin: 0;
-                font-size: 16px;
-            }}
-            .btc-sentinel p {{
-                margin: 4px 0 0;
-                font-size: 13px;
-                color: var(--subtext);
-            }}
-            .tab-nav {{
-                display: flex;
-                gap: 10px;
-                margin-bottom: 24px;
-                flex-wrap: wrap;
-            }}
-            .tab-btn {{
-                background: #1e293b;
-                color: var(--subtext);
-                border: 1px solid var(--border);
-                padding: 10px 18px;
-                border-radius: 20px;
-                cursor: pointer;
-                font-size: 13px;
-                font-weight: 600;
-                display: flex;
-                align-items: center;
-                gap: 6px;
-            }}
-            .tab-btn.active {{
-                background: var(--accent);
-                color: #0f172a;
-                border-color: var(--accent);
-            }}
-            .tab-count {{
-                background: #0f172a;
-                color: var(--accent);
-                font-size: 11px;
-                padding: 2px 7px;
-                border-radius: 10px;
-                font-weight: bold;
-            }}
-            .tab-btn.active .tab-count {{
-                background: #0f172a;
-                color: #ffffff;
-            }}
-            .metrics-grid {{
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-                gap: 14px;
-                margin-bottom: 30px;
-            }}
-            .metric-card {{
-                background: var(--card-bg);
-                border: 1px solid var(--border);
-                border-radius: 12px;
-                padding: 16px;
-                text-align: center;
-            }}
-            .metric-card label {{
-                font-size: 12px;
-                color: var(--subtext);
-                display: block;
-                margin-bottom: 6px;
-            }}
-            .metric-card .val {{
-                font-size: 20px;
-                font-weight: bold;
-            }}
-
-            /* --- নতুন কমপ্যাক্ট ড্রপডাউন অ্যাকর্ডিয়ন কার্ড ডিজাইন --- */
-            .coin-card {{
-                background: var(--card-bg);
-                border: 1px solid var(--border);
-                border-radius: 12px;
-                margin-bottom: 14px;
-                overflow: hidden;
-                transition: 0.2s border-color, 0.2s box-shadow;
-            }}
-            .coin-card:hover {{
-                border-color: #475569;
-                box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
-            }}
-            .card-summary-strip {{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 16px 20px;
-                cursor: pointer;
-                background: #1e293b;
-                user-select: none;
-                transition: background 0.2s;
-            }}
-            .card-summary-strip:hover {{
-                background: #24334a;
-            }}
-            .strip-left {{
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-            }}
-            .strip-title-row {{
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                flex-wrap: wrap;
-            }}
-            .coin-name {{
-                font-size: 19px;
-                font-weight: bold;
-                color: #f8fafc;
-            }}
-            .strip-meta-row {{
-                font-size: 12px;
-                color: var(--subtext);
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                flex-wrap: wrap;
-            }}
-            .dot-sep {{
-                color: #475569;
-            }}
-            .strip-right {{
-                display: flex;
-                align-items: center;
-                gap: 16px;
-            }}
-            .pnl-box {{
-                font-size: 20px;
-                font-weight: bold;
-            }}
-            .expand-arrow {{
-                font-size: 14px;
-                color: var(--accent);
-                transition: transform 0.3s ease;
-                background: #0f172a;
-                width: 30px;
-                height: 30px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                border: 1px solid var(--border);
-            }}
-            .card-summary-strip.open .expand-arrow {{
-                transform: rotate(180deg);
-                background: var(--accent);
-                color: #0f172a;
-            }}
-
-            /* ড্রপডাউন বডি (শুরুতে বন্ধ থাকবে) */
-            .card-expand-body {{
-                display: none;
-                padding: 0 20px 20px 20px;
-                border-top: 1px solid #33415550;
-                background: #172132;
-            }}
-
-            .entry-zone-banner {{
-                background: #0284c725;
-                border: 1px solid #0284c7;
-                border-radius: 8px;
-                padding: 10px 14px;
-                margin: 16px 0 12px 0;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                flex-wrap: wrap;
-            }}
-            .ez-label {{
-                font-size: 11px;
-                font-weight: bold;
-                color: #38bdf8;
-            }}
-            .ez-val {{
-                font-size: 15px;
-                font-weight: bold;
-                color: #ffffff;
-            }}
-            .ez-status {{
-                font-size: 12px;
-                color: var(--subtext);
-            }}
-            .stats-grid {{
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-                gap: 12px;
-                background: #0f172a80;
-                padding: 14px;
-                border-radius: 8px;
-                margin-bottom: 12px;
-            }}
-            .stat-item label {{
-                font-size: 11px;
-                color: var(--subtext);
-                display: block;
-            }}
-            .stat-item span {{
-                font-size: 15px;
-                font-weight: 600;
-            }}
-            .orderflow-grid, .sma-structure-grid {{
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-                gap: 10px;
-                background: #0d1b2a;
-                padding: 12px 16px;
-                border-radius: 8px;
-                border: 1px solid #1e3a8a;
-                margin-bottom: 10px;
-            }}
-            .of-box, .sma-box {{
-                display: flex;
-                flex-direction: column;
-            }}
-            .of-title, .sma-title {{
-                font-size: 10px;
-                color: #60a5fa;
-                font-weight: 600;
-                text-transform: uppercase;
-            }}
-            .of-val, .sma-val {{
-                font-size: 15px;
-                font-weight: bold;
-                color: #f8fafc;
-                margin: 2px 0;
-            }}
-            .of-sub, .sma-sub {{
-                font-size: 11px;
-                color: var(--subtext);
-            }}
-            .tokenomics-grid {{
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-                gap: 10px;
-                background: #091220;
-                padding: 10px 16px;
-                border-radius: 8px;
-                border: 1px dashed #334155;
-                margin-bottom: 14px;
-            }}
-            .token-box {{
-                display: flex;
-                flex-direction: column;
-            }}
-            .t-title {{
-                font-size: 10px;
-                color: #94a3b8;
-                text-transform: uppercase;
-            }}
-            .t-val {{
-                font-size: 13px;
-                font-weight: 600;
-                color: #e2e8f0;
-                margin-top: 2px;
-            }}
-            details summary {{
-                font-size: 14px;
-                color: var(--accent);
-                cursor: pointer;
-                padding: 8px 0;
-                font-weight: 600;
-            }}
-            .table-container {{
-                margin-top: 10px;
-                overflow-x: auto;
-            }}
-            .sub-table {{
-                width: 100%;
-                border-collapse: collapse;
-                font-size: 13px;
-                text-align: left;
-            }}
-            .sub-table th, .sub-table td {{
-                padding: 10px 12px;
-                border-bottom: 1px solid var(--border);
-            }}
-            .sub-table th {{
-                color: var(--subtext);
-                background: #0f172a;
-                text-transform: uppercase;
-                font-size: 11px;
-            }}
-            .badge {{
-                font-size: 11px;
-                padding: 4px 10px;
-                border-radius: 20px;
-                color: #fff;
-                font-weight: 600;
-            }}
-            .modal-overlay {{
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.75);
-                backdrop-filter: blur(4px);
-                z-index: 1000;
-                justify-content: center;
-                align-items: center;
-                padding: 20px;
-            }}
-            .modal-content {{
-                background: #1e293b;
-                border: 1px solid #475569;
-                border-radius: 16px;
-                width: 100%;
-                max-width: 950px;
-                max-height: 90vh;
-                overflow-y: auto;
-                padding: 24px;
-            }}
-            .modal-header {{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 1px solid #334155;
-                padding-bottom: 14px;
-                margin-bottom: 20px;
-            }}
-            .modal-header h2 {{
-                margin: 0;
-                font-size: 20px;
-                color: #38bdf8;
-            }}
-            .close-btn {{
-                background: transparent;
-                border: none;
-                color: #94a3b8;
-                font-size: 24px;
-                cursor: pointer;
-            }}
-            .close-btn:hover {{
-                color: #ffffff;
-            }}
-            .search-bar-row {{
-                display: flex;
-                gap: 12px;
-                margin-bottom: 20px;
-            }}
-            .search-input {{
-                flex: 1;
-                background: #0f172a;
-                border: 1px solid #334155;
-                color: #f8fafc;
-                padding: 12px 16px;
-                border-radius: 8px;
-                font-size: 15px;
-                outline: none;
-            }}
-            .search-input:focus {{
-                border-color: #38bdf8;
-            }}
+            .container {{ max-width: 1280px; margin: 0 auto; }}
+            .header {{ display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 20px; flex-wrap: wrap; gap: 16px; }}
+            .header-brand {{ display: flex; align-items: center; gap: 16px; }}
+            .brand-logo {{ width: 58px; height: 58px; border-radius: 50%; border: 2px solid var(--accent); object-fit: cover; background: #ffffff; box-shadow: 0 4px 14px rgba(56, 189, 248, 0.25); }}
+            .header h1 {{ margin: 0; font-size: 24px; color: var(--accent); }}
+            .control-panel {{ display: flex; gap: 12px; align-items: center; background: #1e293b; padding: 14px 20px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 20px; justify-content: space-between; flex-wrap: wrap; }}
+            .btn {{ padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: 0.2s all; }}
+            .btn-start {{ background: #10b981; color: white; }}
+            .btn-inspect {{ background: #8b5cf6; color: white; }}
+            .btn-pnl {{ background: #38bdf8; color: #0f172a; }}
+            .btn-reset {{ background: #ef4444; color: white; }}
+            .tv-btn {{ background: #1e3a8a; color: #60a5fa; padding: 4px 10px; border-radius: 6px; text-decoration: none; font-size: 11px; font-weight: bold; border: 1px solid #2563eb; }}
+            .btc-sentinel {{ background: {btc_banner_color}; border: 1px solid {btc_border_color}; border-radius: 12px; padding: 14px 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }}
+            .tab-nav {{ display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }}
+            .tab-btn {{ background: #1e293b; color: var(--subtext); border: 1px solid var(--border); padding: 10px 18px; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; }}
+            .tab-btn.active {{ background: var(--accent); color: #0f172a; border-color: var(--accent); }}
+            .tab-count {{ background: #0f172a; color: var(--accent); font-size: 11px; padding: 2px 7px; border-radius: 10px; font-weight: bold; }}
+            .tab-btn.active .tab-count {{ background: #0f172a; color: #ffffff; }}
+            .metrics-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 14px; margin-bottom: 30px; }}
+            .metric-card {{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; }}
+            .metric-card label {{ font-size: 12px; color: var(--subtext); display: block; margin-bottom: 6px; }}
+            .metric-card .val {{ font-size: 20px; font-weight: bold; }}
+            .coin-card {{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 14px; overflow: hidden; }}
+            .card-summary-strip {{ display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; cursor: pointer; background: #1e293b; user-select: none; }}
+            .card-summary-strip:hover {{ background: #24334a; }}
+            .strip-left {{ display: flex; flex-direction: column; gap: 8px; }}
+            .strip-title-row {{ display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }}
+            .coin-name {{ font-size: 19px; font-weight: bold; color: #f8fafc; }}
+            .strip-meta-row {{ font-size: 12px; color: var(--subtext); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }}
+            .dot-sep {{ color: #475569; }}
+            .strip-right {{ display: flex; align-items: center; gap: 16px; }}
+            .pnl-box {{ font-size: 20px; font-weight: bold; }}
+            .expand-arrow {{ font-size: 14px; color: var(--accent); transition: transform 0.3s ease; background: #0f172a; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid var(--border); }}
+            .card-summary-strip.open .expand-arrow {{ transform: rotate(180deg); background: var(--accent); color: #0f172a; }}
+            .card-expand-body {{ display: none; padding: 0 20px 20px 20px; border-top: 1px solid #33415550; background: #172132; }}
+            .entry-zone-banner {{ background: #0284c725; border: 1px solid #0284c7; border-radius: 8px; padding: 10px 14px; margin: 16px 0 12px 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }}
+            .ez-label {{ font-size: 11px; font-weight: bold; color: #38bdf8; }}
+            .ez-val {{ font-size: 15px; font-weight: bold; color: #ffffff; }}
+            .ez-status {{ font-size: 12px; color: var(--subtext); }}
+            .stats-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; background: #0f172a80; padding: 14px; border-radius: 8px; margin-bottom: 12px; }}
+            .stat-item label {{ font-size: 11px; color: var(--subtext); display: block; }}
+            .stat-item span {{ font-size: 15px; font-weight: 600; }}
+            .orderflow-grid, .sma-structure-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; background: #0d1b2a; padding: 12px 16px; border-radius: 8px; border: 1px solid #1e3a8a; margin-bottom: 10px; }}
+            .of-box, .sma-box {{ display: flex; flex-direction: column; }}
+            .of-title, .sma-title {{ font-size: 10px; color: #60a5fa; font-weight: 600; text-transform: uppercase; }}
+            .of-val, .sma-val {{ font-size: 15px; font-weight: bold; color: #f8fafc; margin: 2px 0; }}
+            .of-sub, .sma-sub {{ font-size: 11px; color: var(--subtext); }}
+            .tokenomics-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; background: #091220; padding: 10px 16px; border-radius: 8px; border: 1px dashed #334155; margin-bottom: 14px; }}
+            .token-box {{ display: flex; flex-direction: column; }}
+            .t-title {{ font-size: 10px; color: #94a3b8; text-transform: uppercase; }}
+            .t-val {{ font-size: 13px; font-weight: 600; color: #e2e8f0; margin-top: 2px; }}
+            details summary {{ font-size: 14px; color: var(--accent); cursor: pointer; padding: 8px 0; font-weight: 600; }}
+            .table-container {{ margin-top: 10px; overflow-x: auto; }}
+            .sub-table {{ width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }}
+            .sub-table th, .sub-table td {{ padding: 10px 12px; border-bottom: 1px solid var(--border); }}
+            .sub-table th {{ color: var(--subtext); background: #0f172a; text-transform: uppercase; font-size: 11px; }}
+            .badge {{ font-size: 11px; padding: 4px 10px; border-radius: 20px; color: #fff; font-weight: 600; }}
+            .modal-overlay {{ display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }}
+            .modal-content {{ background: #1e293b; border: 1px solid #475569; border-radius: 16px; width: 100%; max-width: 950px; max-height: 90vh; overflow-y: auto; padding: 24px; }}
+            .modal-header {{ display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 14px; margin-bottom: 20px; }}
+            .modal-header h2 {{ margin: 0; font-size: 20px; color: #38bdf8; }}
+            .close-btn {{ background: transparent; border: none; color: #94a3b8; font-size: 24px; cursor: pointer; }}
+            .search-bar-row {{ display: flex; gap: 12px; margin-bottom: 20px; }}
+            .search-input {{ flex: 1; background: #0f172a; border: 1px solid #334155; color: #f8fafc; padding: 12px 16px; border-radius: 8px; font-size: 15px; outline: none; }}
         </style>
     </head>
     <body>
@@ -1528,10 +1123,6 @@ def build_html_page():
                             <span>Clean Accordion Engine • Full Market Scan (Max 5 Setups)</span>
                         </p>
                     </div>
-                </div>
-                <div style="font-size: 13px; color: var(--subtext); text-align:right;">
-                    <span id="autoIndicator" style="color:#10b981;font-weight:bold;">● Auto-Monitor Active (60s)</span><br>
-                    <span style="font-size:11px;">Last Update: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</span>
                 </div>
             </div>
 
@@ -1552,29 +1143,8 @@ def build_html_page():
                 </div>
                 <div style="text-align:right;">
                     <div style="font-size:18px;font-weight:bold;">${btc_health['price']}</div>
-                    <div style="font-size:13px;color:{'#10b981' if btc_health['change'] >= 0 else '#ef4444'};">{'+' if btc_health['change'] >= 0 else ''}{btc_health['change']}% (24h) | SMA20: {btc_health['dist20']:+.2f}%</div>
+                    <div style="font-size:13px;color:{'#10b981' if btc_health['change'] >= 0 else '#ef4444'};">{'+' if btc_health['change'] >= 0 else ''}{btc_health['change']}% (24h)</div>
                 </div>
-            </div>
-
-            <div class="metrics-grid">
-                <div class="metric-card"><label>Total Identified</label><div class="val">{total_trades}</div></div>
-                <div class="metric-card"><label>Waiting for Retrace</label><div class="val" style="color:#f59e0b">{waiting_trades}</div></div>
-                <div class="metric-card"><label>Active Triggered</label><div class="val" style="color:#10b981">{active_trades}</div></div>
-                <div class="metric-card"><label>TP1 Hits</label><div class="val" style="color:#059669">{tp1_hits}</div></div>
-                <div class="metric-card"><label>TP2 Hits</label><div class="val" style="color:#047857">{tp2_hits}</div></div>
-                <div class="metric-card"><label>TP3 Hits</label><div class="val" style="color:#065f46">{tp3_hits}</div></div>
-                <div class="metric-card"><label>SL Hits</label><div class="val" style="color:#ef4444">{sl_hits}</div></div>
-                <div class="metric-card"><label>Total PnL (Active)</label><div class="val" style="color:{pnl_color}">{'+' if total_pnl >= 0 else ''}{total_pnl}%</div></div>
-            </div>
-
-            <div class="tab-nav">
-                <button class="tab-btn active" onclick="filterTab('all', this)">🌐 All Setups <span class="tab-count">{count_all}</span></button>
-                <button class="tab-btn" onclick="filterTab('waiting', this)">⏳ Waiting For Retrace <span class="tab-count">{count_waiting}</span></button>
-                <button class="tab-btn" onclick="filterTab('active', this)">⚡ Live Active Trades <span class="tab-count">{count_active}</span></button>
-                <button class="tab-btn" onclick="filterTab('a-plus', this)">💎 Stage-1 Reversal <span class="tab-count">{count_stage1}</span></button>
-                <button class="tab-btn" onclick="filterTab('short-squeeze', this)">🚨 Extreme Short Squeeze <span class="tab-count">{count_short_squeeze}</span></button>
-                <button class="tab-btn" onclick="filterTab('early-momentum', this)">⚡ Early Momentum <span class="tab-count">{count_early_momentum}</span></button>
-                <button class="tab-btn" onclick="filterTab('whale-trap', this)">⚠️ Avoid / Traps <span class="tab-count">{count_whale_trap}</span></button>
             </div>
 
             <div class="trades-container" id="tradesContainer">
@@ -1585,34 +1155,19 @@ def build_html_page():
         <div class="modal-overlay" id="inspectModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>🔍 Single Coin Institutional Inspector (Long & Short Engine)</h2>
+                    <h2>🔍 Single Coin Institutional Inspector</h2>
                     <button class="close-btn" onclick="closeInspectModal()">&times;</button>
                 </div>
                 <div class="search-bar-row">
-                    <input type="text" id="coinSearchInput" class="search-input" placeholder="কয়েনের নাম লিখুন (যেমন: BTC, ETH, SOL, NEAR, AXL, ALT)..." onkeypress="if(event.key==='Enter') submitInspect();">
-                    <button class="btn btn-inspect" onclick="submitInspect()">Inspect Coin</button>
+                    <input type="text" id="coinSearchInput" class="search-input" placeholder="কয়েনের নাম লিখুন (যেমন: BTC, ETH, SOL)..." onkeypress="if(event.key==='Enter') submitInspect();">
+                    <button class="btn btn-inspect" onclick="submitInspect()">Inspect</button>
                 </div>
-                <div id="inspectLoading" style="display:none;text-align:center;padding:30px;color:#38bdf8;">
-                    ⏳ Binance, Bybit এবং OKX থেকে অল-মার্কেট ওপেন ইন্টারেস্ট এবং হিস্ট্রি সংগ্রহ হচ্ছে...
-                </div>
+                <div id="inspectLoading" style="display:none;text-align:center;padding:30px;color:#38bdf8;">⏳ ফেচ হচ্ছে...</div>
                 <div id="inspectResult"></div>
             </div>
         </div>
 
         <script>
-            function playBeep(freq = 600, duration = 200) {{
-                try {{
-                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                    const osc = ctx.createOscillator();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(freq, ctx.currentTime);
-                    osc.connect(ctx.destination);
-                    osc.start();
-                    setTimeout(() => osc.stop(), duration);
-                }} catch (e) {{}}
-            }}
-
-            // কার্ডে ক্লিক করলে ড্রপডাউন ওপেন ও ক্লোজ করার ইন্টারেক্টিভ ফাংশন
             function toggleCardDetails(detailsId, stripElement) {{
                 const detailsBox = document.getElementById(detailsId);
                 if (detailsBox.style.display === 'block') {{
@@ -1623,7 +1178,6 @@ def build_html_page():
                     stripElement.classList.add('open');
                 }}
             }}
-
             function openInspectModal() {{ document.getElementById('inspectModal').style.display = 'flex'; document.getElementById('coinSearchInput').focus(); }}
             function closeInspectModal() {{ document.getElementById('inspectModal').style.display = 'none'; }}
             function submitInspect() {{
@@ -1631,243 +1185,48 @@ def build_html_page():
                 if (!input) return;
                 document.getElementById('inspectLoading').style.display = 'block';
                 document.getElementById('inspectResult').innerHTML = '';
-                fetch('/api/inspect?symbol=' + encodeURIComponent(input))
-                .then(r => r.json())
-                .then(d => {{
+                fetch('/api/inspect?symbol=' + encodeURIComponent(input)).then(r => r.json()).then(d => {{
                     document.getElementById('inspectLoading').style.display = 'none';
-                    if (!d.success) {{
-                        document.getElementById('inspectResult').innerHTML = '<div style="color:#ef4444;padding:20px;text-align:center;">' + d.error + '</div>';
-                        return;
-                    }}
+                    if (!d.success) {{ document.getElementById('inspectResult').innerHTML = '<div style="color:#ef4444;padding:20px;text-align:center;">' + d.error + '</div>'; return; }}
                     renderInspectResult(d);
-                }})
-                .catch(err => {{
-                    document.getElementById('inspectLoading').style.display = 'none';
-                    document.getElementById('inspectResult').innerHTML = '<div style="color:#ef4444;padding:20px;text-align:center;">সার্ভার কানেকশন এরর!</div>';
                 }});
             }}
-
             function renderInspectResult(d) {{
-                let histHtml = '';
-                d.daily_history.forEach(h => {{
-                    histHtml += `
-                        <tr>
-                            <td>${{h.date}}</td>
-                            <td><b>$${{h.close}}</b></td>
-                            <td>${{h.sma20_dist}}</td>
-                            <td>${{h.sma50_dist}}</td>
-                            <td>${{h.rvol}}</td>
-                            <td style="color:#38bdf8;font-weight:600;">${{h.daily_oi}}</td>
-                            <td>${{h.exchange_flow}}</td>
-                            <td>${{h.type}}</td>
-                        </tr>
-                    `;
-                }});
-
-                const isShort = d.setup_direction.includes('SHORT');
-                const bannerBorderColor = isShort ? '#ef4444' : '#10b981';
-                const bannerBgColor = isShort ? '#ef444425' : '#10b98125';
-                const zoneTitle = isShort ? '🎯 INSTITUTIONAL SELL / SHORT ZONE:' : '🎯 INSTITUTIONAL BUY ZONE:';
-                const slLabel = isShort ? 'Stop Loss (Above High +6%)' : 'Stop Loss (Zone -10%)';
-
-                const html = `
-                    <div class="coin-card" style="margin-top:10px;background:#0f172a;border-color:${{d.direction_color}};">
-                        <div style="padding:16px 20px;">
-                            <div style="display:flex;justify-content:space-between;align-items:center;">
-                                <div>
-                                    <h2 style="margin:0;font-size:20px;display:flex;align-items:center;gap:8px;">
-                                        ${{d.clean_symbol}} 
-                                        <span class="badge" style="background:${{d.direction_color}};font-size:13px;padding:5px 12px;">${{d.setup_direction}}</span>
-                                        <span class="badge" style="background:${{d.category_color}}">${{d.category}}</span>
-                                        <span class="badge" style="background:#3b82f6">${{d.status}}</span>
-                                        <a href="${{d.tv_link}}" target="_blank" class="tv-btn">📈 TradingView</a>
-                                    </h2>
-                                    <span style="font-size:12px;color:var(--subtext);margin-top:6px;display:block;">
-                                        🌐 <b>Live Price:</b> $${{d.cur_price}} &nbsp;|&nbsp; 
-                                        Avg Market Funding: <b>${{d.funding_rate}}</b>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div style="background:${{bannerBgColor}};border:1px solid ${{bannerBorderColor}};padding:12px 16px;border-radius:8px;margin:14px 0 12px 0;font-size:13px;">
-                                <b>💡 প্রাতিষ্ঠানিক ডায়াগনসিস:</b> ${{d.analysis_summary}}
-                            </div>
-
-                            <div style="background:#1e293b;padding:12px 16px;border-radius:8px;border-left:4px solid #8b5cf6;margin-bottom:12px;font-size:13px;">
-                                <b>🗓️ বিগত ৯০ দিনের সাইকেল রিপোর্ট:</b> 
-                                90D Low: <b style="color:#10b981">$${{d.low_90d}}</b> (${{d.gain_from_90d_low}} from bottom) &nbsp;|&nbsp; 
-                                90D High: <b style="color:#ef4444">$${{d.high_90d}}</b> (${{d.dist_from_90d_high}} from peak)
-                            </div>
-
-                            <div class="entry-zone-banner" style="background:${{bannerBgColor}};border-color:${{bannerBorderColor}};">
-                                <span class="ez-label" style="color:${{bannerBorderColor}}">${{zoneTitle}}</span>
-                                <span class="ez-val">$${{d.entry_zone_low}} &nbsp;—&nbsp; $${{d.entry_zone_high}}</span>
-                                <span class="ez-status">(SL: $${{d.stop_loss}} | TP1: $${{d.tp1}} | TP2: $${{d.tp2}} | TP3: $${{d.tp3}})</span>
-                            </div>
-
-                            <div class="stats-grid">
-                                <div class="stat-item"><label>Current Live Price</label><span style="color:#38bdf8;">$${{d.cur_price}}</span></div>
-                                <div class="stat-item"><label>${{slLabel}}</label><span style="color:#ef4444">$${{d.stop_loss}}</span></div>
-                                <div class="stat-item"><label>TP1 (90D Structural Swing)</label><span style="color:#10b981">$${{d.tp1}}</span></div>
-                                <div class="stat-item"><label>TP2 (Major Structural Pivot)</label><span style="color:#059669">$${{d.tp2}}</span></div>
-                                <div class="stat-item"><label>TP3 (90-Day Macro High)</label><span style="color:#047857">$${{d.tp3}}</span></div>
-                            </div>
-
-                            <div class="orderflow-grid">
-                                <div class="of-box">
-                                    <span class="of-title">Aggregated Market OI (All-Exchanges)</span>
-                                    <span class="of-val">${{d.open_interest}}</span>
-                                    <span class="of-sub" style="font-size:10px;color:#94a3b8;">${{d.open_interest_detail}}</span>
-                                </div>
-                                <div class="of-box">
-                                    <span class="of-title">Whale Taker Ratio</span>
-                                    <span class="of-val" style="color:#38bdf8;">${{d.whale_taker_ratio}}</span>
-                                    <span class="of-sub">${{d.whale_flow_tag}}</span>
-                                </div>
-                                <div class="of-box">
-                                    <span class="of-title">Average Market Funding Bias</span>
-                                    <span class="of-val">${{d.funding_rate}}</span>
-                                    <span class="of-sub">Binance + Bybit + OKX</span>
-                                </div>
-                            </div>
-
-                            <div class="sma-structure-grid">
-                                <div class="sma-box">
-                                    <span class="sma-title">SMA 20 (Launch Base)</span>
-                                    <span class="sma-val">$${{d.sma20_val}}</span>
-                                    <span class="sma-sub">Diff: +${{d.sma20_dist}}%</span>
-                                </div>
-                                <div class="sma-box">
-                                    <span class="sma-title">SMA 50 (Mid Support)</span>
-                                    <span class="sma-val">$${{d.sma50_val}}</span>
-                                    <span class="sma-sub">Diff: ${{d.sma50_dist}}</span>
-                                </div>
-                                <div class="sma-box">
-                                    <span class="sma-title">SMA 200 (Macro Ceiling)</span>
-                                    <span class="sma-val">$${{d.sma200_val}}</span>
-                                    <span class="sma-sub" style="color:#38bdf8">Diff: ${{d.sma200_dist}}</span>
-                                </div>
-                            </div>
-
-                            <div class="tokenomics-grid">
-                                <div class="token-box"><span class="t-title">Circulating</span><span class="t-val">${{d.circulating}}</span></div>
-                                <div class="token-box"><span class="t-title">Total Supply</span><span class="t-val">${{d.total_supply}}</span></div>
-                                <div class="token-box"><span class="t-title">Unlocked %</span><span class="t-val">${{d.circ_ratio}}</span></div>
-                                <div class="token-box"><span class="t-title">Unlock Risk</span><span class="t-val" style="color:#f59e0b;">${{d.unlock_warning}}</span></div>
-                            </div>
-
-                            <h4 style="margin:16px 0 8px;color:#38bdf8;">📊 বিগত ৭ দিনের বিস্তারিত হিস্টোরি (Daily OI ও Exchange Net Flow সহ):</h4>
-                            <div class="table-container">
-                                <table class="sub-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Close</th>
-                                            <th>SMA20 Dist%</th>
-                                            <th>SMA50 Dist%</th>
-                                            <th>RVOL</th>
-                                            <th style="color:#38bdf8;">Daily OI (Change%)</th>
-                                            <th>Exchange Flow (In/Out)</th>
-                                            <th>Candle Type</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>${{histHtml}}</tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('inspectResult').innerHTML = html;
+                document.getElementById('inspectResult').innerHTML = '<div style="padding:15px;color:#10b981;"><b>' + d.clean_symbol + '</b> | Price: $' + d.cur_price + ' | Status: ' + d.status + '</div>';
             }}
-
-            function filterTab(mode, btn) {{
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                const cards = document.querySelectorAll('.coin-card');
-                cards.forEach(card => {{
-                    const cat = card.getAttribute('data-category');
-                    const status = card.getAttribute('data-status');
-                    
-                    if (mode === 'all') {{
-                        card.style.display = 'block';
-                    }} else if (mode === 'waiting') {{
-                        card.style.display = (status === 'WAITING_FOR_ENTRY' || status === 'WATCHLIST') ? 'block' : 'none';
-                    }} else if (mode === 'active') {{
-                        card.style.display = (status === 'ACTIVE' || status.includes('HIT')) ? 'block' : 'none';
-                    }} else {{
-                        card.style.display = (cat === mode) ? 'block' : 'none';
-                    }}
-                }});
-            }}
-
             function triggerScan() {{
-                const btn = document.getElementById('startBtn');
-                btn.disabled = true;
-                document.getElementById('statusText').innerText = "সম্পূর্ণ ফ্রেশ ফুল মার্কেট স্ক্যানিং শুরু হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন।";
-                fetch('/api/scan', {{ method: 'POST' }}).then(r => r.json()).then(d => {{ pollStatus(); }});
+                fetch('/api/scan', {{ method: 'POST' }}).then(r => r.json()).then(d => {{ alert("স্ক্যান শুরু হয়েছে!"); pollStatus(); }});
             }}
-
             function triggerQuickPnL() {{
-                const btn = document.getElementById('pnlBtn');
-                btn.disabled = true;
-                document.getElementById('statusText').innerText = "⚡ লাইভ প্রাইস ও এন্ট্রি জোন চেক হচ্ছে...";
-                fetch('/api/update_pnl', {{ method: 'POST' }})
-                .then(r => r.json())
-                .then(d => {{
-                    document.getElementById('statusText').innerText = "✅ " + d.count + "টি ট্রেডের লাইভ আপডেট সফল!";
-                    setTimeout(() => location.reload(), 800);
-                }})
-                .catch(err => {{ btn.disabled = false; }});
+                fetch('/api/update_pnl', {{ method: 'POST' }}).then(r => r.json()).then(d => {{ alert("PnL আপডেট সফল!"); location.reload(); }});
             }}
-
             function triggerReset() {{
-                if (confirm("আপনি কি নিশ্চিত যে সম্পূর্ণ ডাটাবেস মুছে ফেলতে চান?")) {{
-                    fetch('/api/reset', {{ method: 'POST' }}).then(r => r.json()).then(d => {{ location.reload(); }});
-                }}
+                if (confirm("রিসেট করতে চান?")) {{ fetch('/api/reset', {{ method: 'POST' }}).then(r => r.json()).then(d => location.reload()); }}
             }}
-
             function pollStatus() {{
                 const timer = setInterval(() => {{
                     fetch('/api/status').then(r => r.json()).then(data => {{
                         document.getElementById('statusText').innerText = "স্ট্যাটাস: " + data.message;
-                        if (!data.scanning) {{
-                            clearInterval(timer);
-                            document.getElementById('startBtn').disabled = false;
-                            setTimeout(() => location.reload(), 1500);
-                        }}
+                        if (!data.scanning) {{ clearInterval(timer); location.reload(); }}
                     }});
                 }}, 2000);
             }}
-
-            setInterval(() => {{
-                fetch('/api/status').then(r => r.json()).then(d => {{ if (!d.scanning) location.reload(); }});
-            }}, 60000);
         </script>
     </body>
     </html>
     """
-    return html
 
-# ==============================================================================
-# ১১. লোকাল ওয়েব সার্ভার ও রুটস
-# ==============================================================================
 class WebServerHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         parsed = urlparse(self.path)
         if parsed.path in ['/logo.png', '/icn copy.png']:
-            img_file = 'logo.png' if os.path.exists('logo.png') else ('icn copy.png' if os.path.exists('icn copy.png') else None)
-            if img_file:
+            if os.path.exists('logo.png'):
                 self.send_response(200)
                 self.send_header('Content-Type', 'image/png')
                 self.end_headers()
-                with open(img_file, 'rb') as f: self.wfile.write(f.read())
+                with open('logo.png', 'rb') as f: self.wfile.write(f.read())
                 return
-            else:
-                self.send_response(404)
-                self.end_headers()
-                return
-
+            self.send_response(404); self.end_headers(); return
         if parsed.path == '/' or parsed.path == '/index.html':
             self.send_response(200)
             self.send_header('Content-Type', 'text/html; charset=utf-8')
@@ -1877,7 +1236,7 @@ class WebServerHandler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps({'scanning': is_scanning, 'message': scan_status_msg, 'alert': last_alert_event}).encode('utf-8'))
+            self.wfile.write(json.dumps({'scanning': is_scanning, 'message': scan_status_msg}).encode('utf-8'))
         elif parsed.path == '/api/inspect':
             qs = parse_qs(parsed.query)
             sym = qs.get('symbol', [''])[0]
@@ -1887,8 +1246,7 @@ class WebServerHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(result).encode('utf-8'))
         else:
-            self.send_response(404)
-            self.end_headers()
+            self.send_response(404); self.end_headers()
 
     def do_POST(self):
         global is_scanning, scan_status_msg
@@ -1900,7 +1258,7 @@ class WebServerHandler(BaseHTTPRequestHandler):
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
             self.wfile.write(json.dumps({'status': 'started'}).encode('utf-8'))
-        elif parsed.path == 'api/update_pnl':
+        elif parsed.path == '/api/update_pnl':
             trades_db = load_trades_db()
             count = update_existing_trades(trades_db)
             self.send_response(200)
@@ -1913,22 +1271,19 @@ class WebServerHandler(BaseHTTPRequestHandler):
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
             self.wfile.write(json.dumps({'status': 'reset_done'}).encode('utf-8'))
+        else:
+            self.send_response(404); self.end_headers()
 
     def log_message(self, format, *args): pass
 
-def start_server():
-    server_address = ('', PORT)
-    httpd = HTTPServer(server_address, WebServerHandler)
-    url = f"http://localhost:{PORT}"
-    print(f"\n=======================================================")
-    print(f"🚀 Mobinul's Institutional Crypto Hub Live: {url}")
-    print(f"👉 ব্রাউজারে ড্যাশবোর্ড ওপেন হচ্ছে... বন্ধ করতে Ctrl+C চাপুন।")
-    print(f"=======================================================\n")
-    webbrowser.open(url)
-    try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        print("\nসার্ভার বন্ধ করা হয়েছে।")
-
+# ==============================================================================
+# মূল এন্ট্রি পয়েন্ট (CLI এবং Web Server সাপোর্ট সহ)
+# ==============================================================================
 if __name__ == "__main__":
-    start_server()
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "--scan-only":
+        print("🚀 GitHub Actions CLI Mode: Running Full Market Scan...")
+        run_full_scan()
+        print("✅ Scan & Database Update Complete. Exiting.")
+    else:
+        start_server()
