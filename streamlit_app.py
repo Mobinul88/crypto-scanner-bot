@@ -128,4 +128,5 @@ else:
                 st.write(f"**TP2:** ${t.get('tp2')}")
                 st.write(f"**TP3:** ${t.get('tp3')}")
             
-            st.markdown(f"[📈 Open in TradingView]({f'https://www.tradingview.com/chart/?symbol=BINANCE:{t.get(\"base_coin\")}USDT.P'})")
+            base_c = t.get('base_coin', 'BTC')
+st.markdown(f"[📈 Open in TradingView](https://www.tradingview.com/chart/?symbol=BINANCE:{base_c}USDT.P)")
