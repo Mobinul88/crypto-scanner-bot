@@ -4,11 +4,10 @@ import pandas as pd
 import numpy as np
 import json
 import os
-import requests
 from datetime import datetime
 
 # ==============================================================================
-# কনফিগারেশন ও পেজ সেটআপ
+# পেজ কনফিগারেশন (ডার্ক মোড ও ওয়াইড লেআউট)
 # ==============================================================================
 st.set_page_config(
     page_title="Mobinul • Institutional Crypto Hub",
@@ -16,22 +15,24 @@ st.set_page_config(
     layout="wide"
 )
 
+# পরিষ্কার ও বড় ফন্টের জন্য কাস্টম CSS স্টাইল
+st.markdown("""
+    <style>
+    .main { background-color: #0f172a; color: #f8fafc; }
+    h1, h2, h3 { color: #38bdf8 !important; font-family: sans-serif; }
+    .stMetric { background-color: #1e293b; padding: 18px; border-radius: 12px; border: 1px solid #334155; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+    .stMetric label { color: #94a3b8 !important; font-size: 15px !important; font-weight: 600 !important; }
+    .stMetric div[data-testid="stMetricValue"] { color: #f8fafc !important; font-size: 28px !important; font-weight: bold !important; }
+    .streamlit-expanderHeader { background-color: #1e293b !important; color: #f8fafc !important; font-size: 16px !important; font-weight: bold !important; border-radius: 8px; border: 1px solid #334155; }
+    </style>
+""", unsafe_allow_html=True)
+
 DB_FILE = "trades_tracker.json"
-MAX_DAILY_SETUPS = 5
 
 exchange_binance = ccxt.binance({
     'options': {'defaultType': 'future'},
     'enableRateLimit': True
 })
-
-EXCLUDED_NON_CRYPTO = {
-    'AAPL', 'MSFT', 'AMZN', 'GOOGL', 'GOOG', 'META', 'TSLA', 'NVDA', 'BABA', 'UBER',
-    'HD', 'V', 'BRKB', 'LLY', 'NVO', 'IBM', 'NOW', 'CRM', 'COST', 'EBAY', 'GME',
-    'ADBE', 'SONY', 'TTWO', 'GS', 'KO', 'RDDT', 'VST', 'SHOP', 'MRNA', 'MRK', 'TEAM', 
-    'BYD', 'CRCL', 'BIDU', 'NIO', 'PDD', 'ZM', 'PAYP', 'NAVER', 'TSLL', 'SPCX', 'APP',
-    'SPY', 'QQQ', 'SQQQ', 'UVXY', 'TZA', 'TMF', 'GDX', 'XLE', 'COPPER', 'CL', 'NATGAS',
-    'EWJ', 'HK0700', 'HK1810', 'TENCENT', 'MEITUAN', 'XAU', 'XAG'
-}
 
 def round_price(val):
     if val is None or val == "N/A":
@@ -56,10 +57,6 @@ def load_trades_db():
             return {}
     return {}
 
-def save_trades_db(db):
-    with open(DB_FILE, 'w', encoding='utf-8') as f:
-        json.dump(db, f, indent=4)
-
 def check_btc_market_health():
     try:
         ohlcv = exchange_binance.fetch_ohlcv('BTC/USDT:USDT', timeframe='1d', limit=40)
@@ -68,65 +65,62 @@ def check_btc_market_health():
         curr = df.iloc[-1]
         prev = df.iloc[-2]
         btc_change_24h = ((curr['close'] - prev['close']) / prev['close']) * 100
-        dist20 = ((curr['close'] - curr['sma20']) / curr['sma20']) * 100
         return {
             'status_text': "🟢 Bullish / Active Base",
-            'sub_text': "বিটিসি বুলিশ জোনে আছে। ট্রেড নিরাপদ।",
             'price': round(float(curr['close']), 1),
             'change': round(float(btc_change_24h), 2)
         }
     except Exception:
-        return {'status_text': 'SAFE', 'sub_text': 'মার্কেট স্বাভাবিক।', 'price': 0.0, 'change': 0.0}
+        return {'status_text': 'SAFE', 'price': 0.0, 'change': 0.0}
 
 # ==============================================================================
-# UI ডিজাইন ও ড্যাশবোর্ড
+# ড্যাশবোর্ড হেডার ও মেট্রিকস
 # ==============================================================================
-st.markdown("""
-    <style>
-    .main { background-color: #0f172a; color: #f8fafc; }
-    .stMetric { background-color: #1e293b; padding: 15px; border-radius: 10px; border: 1px solid #334155; }
-    </style>
-""", unsafe_allow_html=True)
-
 st.title("⚡ Institutional Pre-Pump Crypto Hub")
-st.markdown("Owner & Lead Analyst: **Mobinul** | Streamlit Cloud Live Version")
+st.markdown("Owner & Lead Analyst: **Mobinul** | Clean Streamlit Live Version")
 
 btc_info = check_btc_market_health()
-st.info(f"🌐 **BTC Market Status:** {btc_info['status_text']} | Price: **${btc_info['price']}** ({btc_info['change']}%)")
+st.success(f"🌐 **BTC Market Status:** {btc_info['status_text']} &nbsp;|&nbsp; Price: **${btc_info['price']}** ({btc_info['change']}%)")
 
 trades_db = load_trades_db()
 
+total_setups = len(trades_db)
+active_trades = sum(1 for t in trades_db.values() if t.get('status') == 'ACTIVE')
+waiting_trades = sum(1 for t in trades_db.values() if t.get('status') in ['WAITING_FOR_ENTRY', 'WATCHLIST'])
+total_pnl = round(sum(t.get('pnl_pct', 0.0) for t in trades_db.values()), 2)
+
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    st.metric("Total Setups", len(trades_db))
+    st.metric("Total Setups", total_setups)
 with col2:
-    active_cnt = sum(1 for t in trades_db.values() if t.get('status') == 'ACTIVE')
-    st.metric("Active Trades", active_cnt)
+    st.metric("Active Trades", active_trades)
 with col3:
-    waiting_cnt = sum(1 for t in trades_db.values() if t.get('status') in ['WAITING_FOR_ENTRY', 'WATCHLIST'])
-    st.metric("Waiting for Retrace", waiting_cnt)
+    st.metric("Waiting for Retrace", waiting_trades)
 with col4:
-    total_pnl = round(sum(t.get('pnl_pct', 0.0) for t in trades_db.values()), 2)
     st.metric("Total PnL", f"{total_pnl}%")
 
 st.markdown("---")
 st.subheader("📊 Current Identified Trade Setups")
 
 if not trades_db:
-    st.warning("বর্তমানে কোনো ট্রেড ডাটা নেই। গিটহাব অ্যাকশন্স থেকে ডেইলি স্ক্যান রান হওয়ার পর এখানে ট্রেড শো করবে।")
+    st.warning("বর্তমানে কোনো ট্রেড ডাটা নেই।")
 else:
     for sym, t in trades_db.items():
-        with st.expander(f"📌 {t.get('clean_symbol', sym)} — Status: {t.get('status')} | PnL: {t.get('pnl_pct', 0.0)}%"):
-            col_a, col_b, col_c = st.columns(3)
-            with col_a:
-                st.write(f"**Entry Zone:** ${t.get('entry_zone_low')} — ${t.get('entry_zone_high')}")
-                st.write(f"**Current Price:** ${t.get('current_price')}")
-            with col_b:
-                st.write(f"**Stop Loss:** ${t.get('stop_loss')}")
-                st.write(f"**TP1:** ${t.get('tp1')}")
-            with col_c:
-                st.write(f"**TP2:** ${t.get('tp2')}")
-                st.write(f"**TP3:** ${t.get('tp3')}")
+        status_text = t.get('status', 'ACTIVE')
+        pnl_val = t.get('pnl_pct', 0.0)
+        
+        with st.expander(f"📌 {t.get('clean_symbol', sym)}   |   Status: {status_text}   |   PnL: {pnl_val}%"):
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                st.markdown(f"**🎯 Entry Zone:** <br><span style='font-size:18px;color:#38bdf8;'>${t.get('entry_zone_low')} — ${t.get('entry_zone_high')}</span>", unsafe_allow_html=True)
+                st.markdown(f"**📌 Current Price:** <br><span style='font-size:16px;'>${t.get('current_price')}</span>", unsafe_allow_html=True)
+            with c2:
+                st.markdown(f"**🛑 Stop Loss:** <br><span style='font-size:16px;color:#ef4444;'>${t.get('stop_loss')}</span>", unsafe_allow_html=True)
+                st.markdown(f"**🎯 TP1:** <br><span style='font-size:16px;color:#10b981;'>${t.get('tp1')}</span>", unsafe_allow_html=True)
+            with c3:
+                st.markdown(f"**🎯 TP2:** <br><span style='font-size:16px;color:#10b981;'>${t.get('tp2')}</span>", unsafe_allow_html=True)
+                st.markdown(f"**🎯 TP3:** <br><span style='font-size:16px;color:#10b981;'>${t.get('tp3')}</span>", unsafe_allow_html=True)
             
             base_c = t.get('base_coin', 'BTC')
-st.markdown(f"[📈 Open in TradingView](https://www.tradingview.com/chart/?symbol=BINANCE:{base_c}USDT.P)")
+            st.markdown("---")
+            st.markdown(f"[📈 Open TradingView Chart](https://www.tradingview.com/chart/?symbol=BINANCE:{base_c}USDT.P)")
